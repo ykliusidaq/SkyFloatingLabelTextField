@@ -12,7 +12,7 @@ import UIKit
  A beautiful and flexible textfield implementation with support for icon, title label, error message and placeholder.
  */
 public class SkyFloatingLabelTextFieldWithIcon: SkyFloatingLabelTextField {
-
+    
     /// A UILabel value that identifies the label used to display the icon
     public var iconLabel:UILabel!
     
@@ -34,7 +34,7 @@ public class SkyFloatingLabelTextFieldWithIcon: SkyFloatingLabelTextField {
     
     /// A UIColor value that determines the color of the icon in the normal state
     @IBInspectable
-    public var iconColor:UIColor = UIColor.grayColor() {
+    public var iconColor:UIColor = UIColor.gray {
         didSet {
             self.updateIconLabelColor()
         }
@@ -42,7 +42,7 @@ public class SkyFloatingLabelTextFieldWithIcon: SkyFloatingLabelTextField {
     
     /// A UIColor value that determines the color of the icon when the control is selected
     @IBInspectable
-    public var selectedIconColor:UIColor = UIColor.grayColor() {
+    public var selectedIconColor:UIColor = UIColor.gray {
         didSet {
             self.updateIconLabelColor()
         }
@@ -74,16 +74,16 @@ public class SkyFloatingLabelTextFieldWithIcon: SkyFloatingLabelTextField {
     @IBInspectable
     public var iconRotationDegrees:Double = 0 {
         didSet {
-            self.iconLabel.transform = CGAffineTransformMakeRotation(CGFloat(iconRotationDegrees * M_PI / 180.0))
+            self.iconLabel.transform = CGAffineTransform(rotationAngle: CGFloat(iconRotationDegrees * M_PI / 180.0))
         }
     }
     
     // MARK: Initializers
     
     /**
-    Initializes the control
-    - parameter frame the frame of the control
-    */
+     Initializes the control
+     - parameter frame the frame of the control
+     */
     override public init(frame: CGRect) {
         super.init(frame: frame)
         self.createIconLabel()
@@ -103,9 +103,9 @@ public class SkyFloatingLabelTextFieldWithIcon: SkyFloatingLabelTextField {
     /// Creates the icon label
     private func createIconLabel() {
         let iconLabel = UILabel()
-        iconLabel.backgroundColor = UIColor.clearColor()
-        iconLabel.textAlignment = .Center
-        iconLabel.autoresizingMask = [.FlexibleTopMargin, .FlexibleRightMargin]
+        iconLabel.backgroundColor = UIColor.clear
+        iconLabel.textAlignment = .center
+        iconLabel.autoresizingMask = [.flexibleTopMargin, .flexibleRightMargin]
         self.iconLabel = iconLabel
         self.addSubview(iconLabel)
         
@@ -131,12 +131,12 @@ public class SkyFloatingLabelTextFieldWithIcon: SkyFloatingLabelTextField {
     // MARK: Custom layout overrides
     
     /**
-    Calculate the bounds for the textfield component of the control. Override to create a custom size textbox in the control.    
-    - parameter bounds: The current bounds of the textfield component
-    - returns: The rectangle that the textfield component should render in
-    */
-    override public func textRectForBounds(bounds: CGRect) -> CGRect {
-        var rect = super.textRectForBounds(bounds)
+     Calculate the bounds for the textfield component of the control. Override to create a custom size textbox in the control.
+     - parameter bounds: The current bounds of the textfield component
+     - returns: The rectangle that the textfield component should render in
+     */
+    override public func textRect(forBounds bounds: CGRect) -> CGRect {
+        var rect = super.textRect(forBounds: bounds)
         if isLTRLanguage {
             rect.origin.x += CGFloat(iconWidth + iconMarginLeft)
         } else {
@@ -145,14 +145,14 @@ public class SkyFloatingLabelTextFieldWithIcon: SkyFloatingLabelTextField {
         rect.size.width -= CGFloat(iconWidth + iconMarginLeft)
         return rect
     }
-
+    
     /**
      Calculate the rectangle for the textfield when it is being edited
      - parameter bounds: The current bounds of the field
      - returns: The rectangle that the textfield should render in
      */
-    override public func editingRectForBounds(bounds: CGRect) -> CGRect {
-        var rect = super.editingRectForBounds(bounds)
+    override public func editingRect(forBounds bounds: CGRect) -> CGRect {
+        var rect = super.editingRect(forBounds: bounds)
         if isLTRLanguage {
             rect.origin.x += CGFloat(iconWidth + iconMarginLeft)
         } else {
@@ -161,14 +161,14 @@ public class SkyFloatingLabelTextFieldWithIcon: SkyFloatingLabelTextField {
         rect.size.width -= CGFloat(iconWidth + iconMarginLeft)
         return rect
     }
-
+    
     /**
      Calculates the bounds for the placeholder component of the control. Override to create a custom size textbox in the control.
      - parameter bounds: The current bounds of the placeholder component
      - returns: The rectangle that the placeholder component should render in
      */
-    override public func placeholderRectForBounds(bounds: CGRect) -> CGRect {
-        var rect = super.placeholderRectForBounds(bounds)
+    override public func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        var rect = super.placeholderRect(forBounds: bounds)
         if isLTRLanguage {
             rect.origin.x += CGFloat(iconWidth + iconMarginLeft)
         } else {
@@ -188,7 +188,8 @@ public class SkyFloatingLabelTextFieldWithIcon: SkyFloatingLabelTextField {
         let textHeight = self.textHeight()
         let textWidth:CGFloat = self.bounds.size.width
         if isLTRLanguage {
-            self.iconLabel.frame = CGRectMake(0, self.bounds.size.height - textHeight - iconMarginBottom, iconWidth, textHeight)
+            //            self.iconLabel.frame = CGRectMake(0, self.bounds.size.height - textHeight - iconMarginBottom, iconWidth, textHeight)
+            self.iconLabel.frame = CGRect(x: 0, y: self.bounds.size.height - textHeight - iconMarginBottom, width: iconWidth, height: textHeight)
         } else {
             self.iconLabel.frame = CGRect(x: textWidth - iconWidth , y: self.bounds.size.height - textHeight - iconMarginBottom, width: iconWidth, height: textHeight)
         }
